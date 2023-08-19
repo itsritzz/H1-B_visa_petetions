@@ -1,0 +1,611 @@
+---
+title: "Project - H1B - V2"
+author: "Pirasath Rajh"
+date: "2023-04-14"
+output: html_document
+---
+
+```{r}
+#install.packages("dplyr")
+#install.packages("tibble")
+#install.packages("ggplot2")
+#install.packages("hrbrthemes")
+library(dplyr)
+library(tibble)
+library(ggplot2)
+library(hrbrthemes)
+library(ExcelFunctionsR)
+```
+
+```{r}
+col <- c("CASE_STATUS","RECEIVED_DATE","DECISION_DATE","VISA_CLASS","JOB_TITLE","SOC_TITLE","EMPLOYER_NAME","EMPLOYER_STATE","AGENT_REPRESENTING_EMPLOYER","WAGE","H_1B_DEPENDENT","WILLFUL_VIOLATOR","EMPLOYER_COUNTRY","NEW_EMPLOYMENT","CONTINUED_EMPLOYMENT","CHANGE_PREVIOUS_EMPLOYMENT","NEW_CONCURRENT_EMPLOYMENT","SOC_CODE","FULL_TIME_POSITION")
+
+```
+
+```{r}
+d17 <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/H1Bdata2017.csv")[ ,col]
+```
+
+```{r}
+d18 <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/H1Bdata2018.csv")[ ,col]
+```
+
+```{r}
+d19 <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/H1Bdata2019.csv")[ ,col]
+```
+
+```{r}
+d20 <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/H1Bdata2020.csv")[ ,col]
+```
+
+```{r}
+d21 <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/H1Bdata2021.csv")[ ,col]
+```
+
+```{r}
+d22 <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/H1Bdata2022.csv")[ ,col]
+```
+
+
+
+```{r}
+d17$TimeTaken <- difftime(as.Date(d17$DECISION_DATE,"%m/%d/%y"),as.Date(d17$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d18$TimeTaken <- difftime(as.Date(d18$DECISION_DATE,"%m/%d/%y"),as.Date(d18$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d19$TimeTaken <- difftime(as.Date(d19$DECISION_DATE,"%m/%d/%y"),as.Date(d19$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d20$TimeTaken <- difftime(as.Date(d20$DECISION_DATE,"%m/%d/%y"),as.Date(d20$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d21$TimeTaken <- difftime(as.Date(d21$DECISION_DATE,"%m/%d/%y"),as.Date(d21$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d22$TimeTaken <- difftime(as.Date(d22$DECISION_DATE,"%m/%d/%y"),as.Date(d22$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+
+```
+
+
+
+```{r}
+d17$SOC <- substr (d17$SOC_CODE, 1,2)
+d18$SOC <- substr (d18$SOC_CODE, 1,2)
+d19$SOC <- substr (d19$SOC_CODE, 1,2)
+d20$SOC <- substr (d20$SOC_CODE, 1,2)
+d21$SOC <- substr (d21$SOC_CODE, 1,2)
+d22$SOC <- substr (d22$SOC_CODE, 1,2)
+
+```
+
+
+
+```{r}
+d17 <- d17[!is.na(d17$CASE_STATUS),]
+d18 <- d18[!is.na(d18$CASE_STATUS),]
+d19 <- d19[!is.na(d19$CASE_STATUS),]
+d20 <- d20[!is.na(d20$CASE_STATUS),]
+d21 <- d21[!is.na(d21$CASE_STATUS),]
+d22 <- d22[!is.na(d22$CASE_STATUS),]
+
+
+
+```
+
+
+```{r}
+d17 <- filter(d17,VISA_CLASS=="H-1B")
+d18 <- filter(d18,VISA_CLASS=="H-1B")
+d19 <- filter(d19,VISA_CLASS=="H-1B")
+d20 <- filter(d20,VISA_CLASS=="H-1B")
+d21 <- filter(d21,VISA_CLASS=="H-1B")
+d22 <- filter(d22,VISA_CLASS=="H-1B")
+```
+
+
+```{r}
+d17$YEAR <- paste("2017")
+d18$YEAR <- paste("2018")
+d19$YEAR <- paste("2019")
+d20$YEAR <- paste("2020")
+d21$YEAR <- paste("2021")
+d22$YEAR <- paste("2022")
+```
+
+```{r}
+# d22$Wage_Num <- as.numeric(d22$WAGE)
+# dummy <- d22[!is.na(d22$Wage_Num),]
+```
+
+
+
+```{r}
+# abc <- table(AllData$SOC)
+# write.csv (abc,file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/Soc_Title1.csv")
+```
+
+```{r}
+# abc <- c("10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","46","48","50","54","55","71","73","74","75","76","78","79","97","AC","CO","EL","EN","ME","No","OP","SO")
+# df <- AllData
+# da <- df %>%
+# filter(df$SOC %in% c("10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","46","48","50","54","55","71","73","74","75","76","78","79","97","AC","CO","EL","EN","ME","No","OP","SO"))
+# write.csv (da,file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/Junk_SOC.csv")
+```
+
+```{r}
+d17 <- d17 %>%
+ filter(d17$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d18 <- d18 %>%
+ filter(d18$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d19 <- d19 %>%
+ filter(d19$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d20 <- d20 %>%
+ filter(d20$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d21 <- d21 %>%
+ filter(d21$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d22 <- d22 %>%
+ filter(d22$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+
+```{r}
+SOC_lookup <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/SOC_Lookup.csv")
+```
+
+```{r}
+lookup_codes <- SOC_lookup$Code_SOC
+d17$Industry <- SOC_lookup$Industry [ match ( d17$SOC, lookup_codes)]
+d18$Industry <- SOC_lookup$Industry [ match ( d18$SOC, lookup_codes)]
+d19$Industry <- SOC_lookup$Industry [ match ( d19$SOC, lookup_codes)]
+d20$Industry <- SOC_lookup$Industry [ match ( d20$SOC, lookup_codes)]
+d21$Industry <- SOC_lookup$Industry [ match ( d21$SOC, lookup_codes)]
+d22$Industry <- SOC_lookup$Industry [ match ( d22$SOC, lookup_codes)]
+
+```
+
+
+```{r}
+d17 <- d17 %>%
+ filter(d17$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d18 <- d18 %>%
+ filter(d18$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d19 <- d19 %>%
+ filter(d19$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d20 <- d20 %>%
+ filter(d20$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d21 <- d21 %>%
+ filter(d21$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d22 <- d22 %>%
+ filter(d22$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+```
+
+
+```{r}
+d17_certified <- filter(d17,CASE_STATUS=="CERTIFIED")
+d18_certified <- filter(d18,CASE_STATUS=="CERTIFIED")
+d19_certified <- filter(d19,CASE_STATUS=="CERTIFIED")
+d20_certified <- filter(d20,CASE_STATUS=="Certified")
+d21_certified <- filter(d21,CASE_STATUS=="Certified")
+d22_certified <- filter(d22,CASE_STATUS=="Certified")
+d17_denied <- filter(d17,CASE_STATUS=="DENIED")
+d18_denied <- filter(d18,CASE_STATUS=="DENIED")
+d19_denied <- filter(d19,CASE_STATUS=="DENIED")
+d20_denied <- filter(d20,CASE_STATUS=="Denied")
+d21_denied <- filter(d21,CASE_STATUS=="Denied")
+d22_denied <- filter(d22,CASE_STATUS=="Denied")
+```
+
+
+```{r}
+AllData <- rbind(d17,d18,d19,d20,d21,d22)
+Precovid <- rbind(d17,d18,d19)
+Postcovid <- rbind(d20,d21,d22)
+AllData_Cert <- rbind(d17_certified,d18_certified,d19_certified,d20_certified,d21_certified,d22_certified)
+Precovid_Cert <- rbind(d17_certified,d18_certified,d19_certified)
+Postcovid_Cert <- rbind(d20_certified,d21_certified,d22_certified)
+AllData_Den <- rbind(d17_denied,d18_denied,d19_denied,d20_denied,d21_denied,d22_denied)
+Precovid_Den <- rbind(d17_denied,d18_denied,d19_denied)
+Postcovid_Den <- rbind(d20_denied,d21_denied,d22_denied)
+```
+
+
+<!-- ```{r} -->
+<!-- Dummy <- AllData -->
+<!-- Dummy <- filter(Dummy,TimeTaken<0) -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- Junk_SOC <- read.csv(file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/Junk_SOC.csv") -->
+
+<!-- table(Junk_SOC$SOC) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- state_freq17 <- d17 %>% -->
+<!--   count(EMPLOYER_STATE) %>% -->
+<!--   arrange(desc(n)) -->
+<!-- names(state_freq17)[1] <- "state" -->
+<!-- names(state_freq17)[2] <- "value" -->
+
+<!-- # Plot the heat -->
+<!-- heatmap17 <- plot_usmap(data = state_freq17, values = "value", color = "black") + -->
+<!--   scale_fill_gradient(low = "white", high = "darkgreen") -->
+
+<!-- ggsave("heatmap17.jpg", plot = heatmap17, width = 11, height = 8.5, dpi = 300) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- state_freq18 <- d18 %>% -->
+<!--   count(EMPLOYER_STATE) %>% -->
+<!--   arrange(desc(n)) -->
+<!-- names(state_freq18)[1] <- "state" -->
+<!-- names(state_freq18)[2] <- "value" -->
+
+<!-- # Plot the heat -->
+<!-- heatmap18 <- plot_usmap(data = state_freq18, values = "value", color = "black") + -->
+<!--   scale_fill_gradient(low = "white", high = "darkgreen") -->
+
+<!-- ggsave("heatmap18.jpg", plot = heatmap18, width = 11, height = 8.5, dpi = 300) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- state_freq19 <- d19 %>% -->
+<!--   count(EMPLOYER_STATE) %>% -->
+<!--   arrange(desc(n)) -->
+<!-- names(state_freq19)[1] <- "state" -->
+<!-- names(state_freq19)[2] <- "value" -->
+
+<!-- # Plot the heat -->
+<!-- heatmap19 <- plot_usmap(data = state_freq19, values = "value", color = "black") + -->
+<!--   scale_fill_gradient(low = "white", high = "darkgreen") -->
+
+<!-- ggsave("heatmap19.jpg", plot = heatmap19, width = 11, height = 8.5, dpi = 300) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- state_freq20 <- d20 %>% -->
+<!--   count(EMPLOYER_STATE) %>% -->
+<!--   arrange(desc(n)) -->
+<!-- names(state_freq20)[1] <- "state" -->
+<!-- names(state_freq20)[2] <- "value" -->
+
+<!-- # Plot the heat -->
+<!-- heatmap20 <- plot_usmap(data = state_freq20, values = "value", color = "black") + -->
+<!--   scale_fill_gradient(low = "white", high = "darkgreen") -->
+
+<!-- ggsave("heatmap20.jpg", plot = heatmap20, width = 11, height = 8.5, dpi = 300) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- state_freq21 <- d21 %>% -->
+<!--   count(EMPLOYER_STATE) %>% -->
+<!--   arrange(desc(n)) -->
+<!-- names(state_freq21)[1] <- "state" -->
+<!-- names(state_freq21)[2] <- "value" -->
+
+<!-- # Plot the heat -->
+<!-- heatmap21 <- plot_usmap(data = state_freq21, values = "value", color = "black") + -->
+<!--   scale_fill_gradient(low = "white", high = "darkgreen") -->
+
+<!-- ggsave("heatmap21.jpg", plot = heatmap21, width = 11, height = 8.5, dpi = 300) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- state_freq22 <- d22 %>% -->
+<!--   count(EMPLOYER_STATE) %>% -->
+<!--   arrange(desc(n)) -->
+<!-- names(state_freq22)[1] <- "state" -->
+<!-- names(state_freq22)[2] <- "value" -->
+
+<!-- # Plot the heat -->
+<!-- heatmap22 <- plot_usmap(data = state_freq22, values = "value", color = "black") + -->
+<!--   scale_fill_gradient(low = "white", high = "darkgreen") -->
+
+<!-- ggsave("heatmap22.jpg", plot = heatmap22, width = 11, height = 8.5, dpi = 300) -->
+<!-- ``` -->
+
+
+```{r}
+
+state_freqPre <- Precovid %>%
+  count(EMPLOYER_STATE) %>%
+  arrange(desc(n))
+names(state_freqPre)[1] <- "state"
+names(state_freqPre)[2] <- "value"
+
+# Plot the heat
+options(scipen = 999)
+heatmapPre <- plot_usmap(data = state_freqPre, values = "value", color = "black") +
+  scale_fill_gradient(low = "white", high = "darkgreen")
+
+barplot(state_freqPre$value[0:10],xlab= "State",ylab = "Number of filings" , main = "Top 10 states filing H1B - Pre-Covid19", names.arg = state_freqPre$state[0:10],col="yellowgreen")
+
+ggsave("heatmapPre.jpg", plot = heatmapPre, width = 11, height = 8.5, dpi = 300)
+
+```
+
+```{r}
+state_freqPost <- Postcovid %>%
+  count(EMPLOYER_STATE) %>%
+  arrange(desc(n))
+names(state_freqPost)[1] <- "state"
+names(state_freqPost)[2] <- "value"
+
+# Plot the heat
+options(scipen = 999)
+heatmapPost <- plot_usmap(data = state_freqPost, values = "value", color = "black") +
+  scale_fill_gradient(low = "white", high = "darkgreen")
+
+Top_statesPost <- barplot(state_freqPost$value[0:10],xlab= "State",ylab = "Number of filings" , main = "Top 10 states filing H1B - Post-Covid19", names.arg = state_freqPost$state[0:10],col="yellowgreen")
+
+ggsave("heatmapPost.jpg", plot = heatmapPost, width = 11, height = 8.5, dpi = 300)
+
+```
+
+<!-- ```{r} -->
+<!-- Dummy<- data.frame ( abc = table(AllData$TimeTaken)) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- table(AllData$SOC) -->
+<!-- ``` -->
+
+```{r}
+
+AllData <- AllData[!is.na(AllData$TimeTaken),]
+AllData$TimeTaken1 <- as.numeric(AllData$TimeTaken)
+AllData <- filter(AllData,TimeTaken1>0)
+
+Precovid <- Precovid[!is.na(Precovid$TimeTaken),]
+Precovid$TimeTaken1 <- as.numeric(Precovid$TimeTaken)
+Precovid <- filter(Precovid,TimeTaken1>0)
+
+Postcovid <- Postcovid[!is.na(Postcovid$TimeTaken),]
+Postcovid$TimeTaken1 <- as.numeric(Postcovid$TimeTaken)
+Postcovid <- filter(Postcovid,TimeTaken1>0)
+
+
+```
+
+```{r}
+AllData$TimeTaken_log <- log(AllData$TimeTaken1,1.5)
+
+hist(AllData$TimeTaken_log)
+```
+```{r}
+Postcovid$TimeTaken_log <- log(Postcovid$TimeTaken1,1.5)
+hist(Postcovid$TimeTaken_log)
+
+```
+
+```{r}
+Precovid$TimeTaken_log <- log(Precovid$TimeTaken1,1.5)
+
+hist(Precovid$TimeTaken_log)
+
+
+```
+
+```{r}
+Ind_Freq_Pre <- Precovid %>%
+  count(Industry) %>%
+  arrange(desc(n))
+names(Ind_Freq_Pre)[2] <- "Applications"
+Ind_Freq_Pre$Time <- paste("Pre-Covid19")
+
+
+
+Ind_Freq_Post <- Postcovid %>%
+  count(Industry) %>%
+  arrange(desc(n))
+names(Ind_Freq_Post)[2] <- "Applications"
+Ind_Freq_Post$Time <- paste("Post-Covid19")
+
+```
+
+```{r}
+
+AllData$WAGE_Num <- as.numeric(AllData$WAGE)
+Precovid$WAGE_Num <- as.numeric(Precovid$WAGE)
+Postcovid$WAGE_Num <- as.numeric(Postcovid$WAGE)
+AllData <- AllData[!is.na(AllData$WAGE_Num),]
+Precovid <- Precovid[!is.na(Precovid$WAGE_Num),]
+Postcovid <- Postcovid[!is.na(Postcovid$WAGE_Num),]
+
+
+Ind_avg_Pre<- aggregate(Precovid$WAGE_Num, by=list(Precovid$SOC), FUN=mean)
+Ind_avg_Post<- aggregate(Postcovid$WAGE_Num, by=list(Postcovid$SOC), FUN=mean)
+
+ 
+SOC_freq_Post <- Postcovid %>%
+  count(SOC) 
+
+SOC_freq_Pre <- Precovid %>%
+  count(SOC) 
+
+Scatter_plot_pre <- cbind (Ind_avg_Pre,SOC_freq_Pre)
+Scatter_plot_Post <- cbind (Ind_avg_Post,SOC_freq_Post)
+
+names(Scatter_plot_pre)[4] <- "No_Of_Applications"
+names(Scatter_plot_Post)[4] <- "No_Of_Applications"
+names(Scatter_plot_pre)[2] <- "Average_Wage"
+names(Scatter_plot_Post)[2] <- "Average_Wage"
+```
+
+
+
+<!-- ```{r} -->
+<!-- a <- data.frame (table(Precovid$WAGE_Num))  -->
+<!-- ``` -->
+
+
+```{r}
+
+gfg <- rbind(Ind_Freq_Post,Ind_Freq_Pre)
+
+gfg$Industry = substr(gfg$Industry, 1, nchar(gfg$Industry)-12)
+options(scipen = 999)
+Industry_plot<-   ggplot(gfg,aes(x = Industry, y = Applications, fill = Time)) +
+geom_bar(stat = "identity", position = "dodge") +  coord_flip() 
+ggsave("Industry_plot.jpg", plot = Industry_plot, width = 8, height = 6, dpi = 1000)
+```
+
+
+
+```{r}
+Scatterplot_pre <- ggplot(Scatter_plot_pre, aes(x = Average_Wage, y = No_Of_Applications)) +
+geom_point() + ggtitle("Pre-Covid19 Industry-wise average wave Vs No. of cases filed")
+ggsave("Scatter_Plot_Pre.jpg", plot = Scatterplot_pre, width = 11, height = 8, dpi = 300)
+
+  
+Scatterplot_post <- ggplot(Scatter_plot_Post, aes(x = Average_Wage, y = No_Of_Applications)) +
+geom_point() + ggtitle("Post-Covid19 Industry-wise average wave Vs No. of cases filed")
+ggsave("Scatter_Plot_Post.jpg", plot = Scatterplot_post, width =11, height = 8, dpi = 300)
+```
+
+```{r}
+
+Scatter_plot_pre1 <- Scatter_plot_pre[-3,]
+Scatter_plot_Post1 <- Scatter_plot_Post[-3,]  
+
+# Scatterplot_pre1 <- 
+  ggplot(Scatter_plot_pre1, aes(x = Average_Wage, y = No_Of_Applications)) +
+geom_point() + ggtitle("Pre-Covid19 Industry-wise average wave Vs No. of cases filed (Excluding Tech Industry)")
+# ggsave("Scatter_Plot_Pre1.jpg", plot = Scatterplot_pre1, width = 11, height = 8, dpi = 300)
+
+  
+# Scatterplot_post1 <- 
+  ggplot(Scatter_plot_Post1, aes(x = Average_Wage, y = No_Of_Applications)) +
+geom_point() + ggtitle("Post-Covid19 Industry-wise average wave Vs No. of cases filed (Excluding Tech Industry)")
+# ggsave("Scatter_Plot_Post1.jpg", plot = Scatterplot_post1, width = 11, height = 8, dpi = 300)
+```
+
+
+```{r}
+# rep_str = c('CERTIFIED - WITHDRAWN'='CERTIFIED-WITHDRAWN')
+AllData$CASE_STATUS_UPPER <- str_replace (AllData$CASE_STATUS_UPPER,"CERTIFIED - WITHDRAWN","CERTIFIED-WITHDRAWN")
+
+Precovid$Ca
+# df$work_address <- str_replace_all(df$work_address, rep_str)
+# 
+# df$address <- str_replace
+
+
+AllData <- AllData %>%
+ filter (AllData$FULL_TIME_POSITION %in% c("Y","N"))
+
+
+#Stacked + percent
+ggplot(AllData, aes(fill=CASE_STATUS_UPPER , y=VISA_CLASS, x=FULL_TIME_POSITION)) +
+    geom_bar(position="fill", stat="identity")
+
+```
+
+
+```{r}
+# PrecovidDummy <- Precovid
+# PostcovidDummy <- Postcovid
+# PrecovidDummy$CLASSIFICATION <- paste("Pre-Covid19")
+# PostcovidDummy$CLASSIFICATION <- paste("Post-Covid19")
+# AllDataDummy <- rbind(PrecovidDummy,PostcovidDummy)
+# AllDataDummy$CASE_STATUS <- toupper(AllDataDummy$CASE_STATUS)
+# AllDataDummy$CASE_STATUS <- str_replace (AllDataDummy$CASE_STATUS,"CERTIFIED - WITHDRAWN","CERTIFIED-WITHDRAWN")
+ggplot(AllDataDummy, aes(fill=CASE_STATUS , y=VISA_CLASS, x=CLASSIFICATION)) +
+    geom_bar(position="fill", stat="identity")
+```
+
+<!-- ```{r} -->
+<!-- dummy <- AllData -->
+<!-- ``` -->
+
+```{r}
+mean(AllData$TimeTaken1_log)
+sd (AllData$TimeTaken1_log)
+```
+
+```{r}
+AllData$WAGE_NUM_log <- log(AllData$WAGE_Num)
+Precovid$WAGE_NUM_log <- log(Precovid$WAGE_Num)
+Postcovid$WAGE_NUM_log <- log(Postcovid$WAGE_Num)
+
+```
+
+
+```{r}
+boxplot(Precovid$WAGE_Num,Postcovid$WAGE_Num, ylim=c(20000,180000),names = c("Pre Covid19", "Post Covid19"),main = "Comparitive Boxplot of wage")
+```
+```{r}
+sample_mean <- mean(AllData$TimeTaken1)
+sample_sd <- sd(AllData$TimeTaken1)
+
+# Assume a normal distribution for the population of wage data
+# based on the Central Limit Theorem
+popu_mean <- sample_mean
+popu_sd <- sample_sd/sqrt(length(AllData$TimeTaken1))
+
+# Calculate the standard error of the mean
+stde_mean <- popu_sd
+
+# Calculate the z-score or t-score for the sample mean
+# Assuming population standard deviation is not known
+t_score <- (sample_mean - popu_mean)/stde_mean
+
+# Find the probability of observing a sample mean as extreme
+# or more extreme than the one you have calculated
+p_value <- pt(t_score, df = length(AllData$TimeTaken1) - 1, lower.tail = FALSE)
+
+# Print the results
+cat("Sample mean:", round(sample_mean, 2), "\n")
+cat("Population mean:", round(popu_mean, 2), "\n")
+cat("Standard error of the mean:", round(stde_mean, 2), "\n")
+cat("T-score:", round(t_score, 2), "\n")
+cat("P-value:", round(p_value, 4), "\n")
+
+```
+
+```{r}
+n <- 1000000
+sample <- sample(AllData$TimeTaken1, n)
+
+# Calculate the sample mean and standard deviation
+sample_mean <- mean(sample)
+sample_sd <- sd(sample)
+
+# Calculate the standard error of the mean
+se <- sample_sd / sqrt(n)
+
+# Specify the null hypothesis (i.e. the population mean)
+null_mean <- popu_mean
+
+# Conduct a t-test
+t_stat <- (sample_mean - null_mean) / se
+p_value <- 2 * pt(abs(t_stat), df = n - 1, lower.tail = FALSE)
+
+# Print the results
+cat("Sample Mean:", sample_mean, "\n")
+cat("Standard Error of Mean:", se, "\n")
+cat("T-Statistic:", t_stat, "\n")
+cat("P-Value:", p_value, "\n")
+```
+
+
+
+
+```{r}
+write.csv(AllData,file = "C:/Users/arpra/OneDrive - Northeastern University/1 SEM Course work/IE 6200/Project work - drive/Dataset/CSV/AllData.csv")
+```
+

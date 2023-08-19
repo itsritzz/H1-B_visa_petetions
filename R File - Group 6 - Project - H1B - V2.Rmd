@@ -1,0 +1,522 @@
+---
+Title: "Project - H1B - V1"
+Author: "Group 6 R file 1"
+Date: "2023-04-14"
+---
+
+```{r}
+#install.packages("nortest")
+# install.packages("forcats")
+# install.packages("usmap")
+# install.packages("readxl")
+# install.packages("viridis")
+# install.packages("dplyr")
+# install.packages("tibble")
+# install.packages("ggplot2")
+# install.packages("hrbrthemes")
+# install.packages("plotrix")
+# install.packages("ggplot2", dependencies = TRUE)
+# install.packages("ExcelFunctionsR")
+#library(nortest)
+# library(forcats)
+# library(usmap)
+# library(readxl)
+# library(viridis)
+# library(dplyr)
+# library(tibble)
+# library(ggplot2)
+# library(hrbrthemes)
+# library(plotrix)
+# library(ExcelFunctionsR)
+# options(hrbrthemes.loadfonts = TRUE)
+```
+
+```{r}
+col <- c("CASE_STATUS","RECEIVED_DATE","DECISION_DATE","VISA_CLASS","JOB_TITLE","SOC_TITLE","EMPLOYER_NAME","EMPLOYER_STATE","AGENT_REPRESENTING_EMPLOYER","WAGE","H_1B_DEPENDENT","WILLFUL_VIOLATOR","EMPLOYER_COUNTRY","NEW_EMPLOYMENT","CONTINUED_EMPLOYMENT","CHANGE_PREVIOUS_EMPLOYMENT","NEW_CONCURRENT_EMPLOYMENT","SOC_CODE","TOTAL_WORKER_POSITIONS")
+```
+
+```{r}
+d22 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/H1Bdata2022.csv")[ ,col]
+```
+```{r}
+d21 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/H1Bdata2021.csv")[ ,col]
+```
+```{r}
+d20 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/H1Bdata2020.csv")[ ,col]
+```
+```{r}
+d19 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/H1Bdata2019.csv")[ ,col]
+```
+```{r}    
+d18 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/H1Bdata2018.csv")[ ,col]
+```
+```{r}
+d17 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/H1Bdata2017.csv")[ ,col]
+```
+
+###### DATA PRE-PROCESSING ######
+
+# Filtering data for H-1B VISA_CLASS
+```{r}
+d17 <- filter(d17,VISA_CLASS=="H-1B")
+d18 <- filter(d18,VISA_CLASS=="H-1B")
+d19 <- filter(d19,VISA_CLASS=="H-1B")
+d20 <- filter(d20,VISA_CLASS=="H-1B")
+d21 <- filter(d21,VISA_CLASS=="H-1B")
+d22 <- filter(d22,VISA_CLASS=="H-1B")
+```
+
+# filtering out NA values from WAGE column
+```{r}
+d17 <- d17[!is.na(d17$WAGE),]
+d18 <- d18[!is.na(d18$WAGE),]
+d19 <- d19[!is.na(d19$WAGE),]
+d20 <- d20[!is.na(d20$WAGE),]
+d21 <- d21[!is.na(d21$WAGE),]
+d22 <- d22[!is.na(d22$WAGE),]
+```
+
+# Removing NA values from CASE_STATUS column
+```{r}
+d17 <- d17[!is.na(d17$CASE_STATUS),]
+d18 <- d18[!is.na(d18$CASE_STATUS),]
+d19 <- d19[!is.na(d19$CASE_STATUS),]
+d20 <- d20[!is.na(d20$CASE_STATUS),]
+d21 <- d21[!is.na(d21$CASE_STATUS),]
+d22 <- d22[!is.na(d22$CASE_STATUS),]
+```
+
+# Converting WAGE columnin into numeric 
+```{r}
+d17$WAGE <- as.numeric(d17$WAGE)
+d18$WAGE <- as.numeric(d18$WAGE)
+d19$WAGE <- as.numeric(d19$WAGE)
+d20$WAGE <- as.numeric(d20$WAGE)
+d21$WAGE <- as.numeric(d21$WAGE)
+d22$WAGE <- as.numeric(d22$WAGE)
+```
+
+# Creating "SOC" column from SOC_CODE by taking first 2 characters to VLOOKUP Industry
+```{r}
+d17$SOC <- substr (d17$SOC_CODE, 1,2)
+d18$SOC <- substr (d18$SOC_CODE, 1,2)
+d19$SOC <- substr (d19$SOC_CODE, 1,2)
+d20$SOC <- substr (d20$SOC_CODE, 1,2)
+d21$SOC <- substr (d21$SOC_CODE, 1,2)
+d22$SOC <- substr (d22$SOC_CODE, 1,2)
+```
+
+# Filtering SOC based on all 22 Industries available on Labour website
+```{r}
+d17 <- d17 %>%
+ filter(d17$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d18 <- d18 %>%
+ filter(d18$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d19 <- d19 %>%
+ filter(d19$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d20 <- d20 %>%
+ filter(d20$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d21 <- d21 %>%
+ filter(d21$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+```{r}
+d22 <- d22 %>%
+ filter(d22$SOC %in% c("11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53"))
+```
+
+# Importing SOC list 
+```{r}
+SOC_lookup <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/SOC_Lookup.csv")
+```
+
+# Adding Industry column by linking SOC with respective industries from SOC List file uploaded above
+```{r}
+lookup_codes <- SOC_lookup$Code_SOC
+d17$Industry <- SOC_lookup$Industry [ match ( d17$SOC, lookup_codes)]
+d18$Industry <- SOC_lookup$Industry [ match ( d18$SOC, lookup_codes)]
+d19$Industry <- SOC_lookup$Industry [ match ( d19$SOC, lookup_codes)]
+d20$Industry <- SOC_lookup$Industry [ match ( d20$SOC, lookup_codes)]
+d21$Industry <- SOC_lookup$Industry [ match ( d21$SOC, lookup_codes)]
+d22$Industry <- SOC_lookup$Industry [ match ( d22$SOC, lookup_codes)]
+
+```
+
+# Adding "YEAR" column in every year dataset
+```{r}
+d17$YEAR <- paste("2017")
+d18$YEAR <- paste("2018")
+d19$YEAR <- paste("2019")
+d20$YEAR <- paste("2020")
+d21$YEAR <- paste("2021")
+d22$YEAR <- paste("2022")
+```
+
+# Filtering USA states from "EMPLOYER_STATE" Column
+```{r}
+d17 <- d17 %>%
+ filter(d17$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d18 <- d18 %>%
+ filter(d18$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d19 <- d19 %>%
+ filter(d19$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d20 <- d20 %>%
+ filter(d20$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d21 <- d21 %>%
+ filter(d21$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+d22 <- d22 %>%
+ filter(d22$EMPLOYER_STATE %in% c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+
+```
+
+# Adding processing time column as "TimeTaken"
+```{r}
+d17$TimeTaken <- difftime(as.Date(d17$DECISION_DATE,"%m/%d/%y"),as.Date(d17$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d18$TimeTaken <- difftime(as.Date(d18$DECISION_DATE,"%m/%d/%y"),as.Date(d18$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d19$TimeTaken <- difftime(as.Date(d19$DECISION_DATE,"%m/%d/%y"),as.Date(d19$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d20$TimeTaken <- difftime(as.Date(d20$DECISION_DATE,"%m/%d/%y"),as.Date(d20$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d21$TimeTaken <- difftime(as.Date(d21$DECISION_DATE,"%m/%d/%y"),as.Date(d21$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+d22$TimeTaken <- difftime(as.Date(d22$DECISION_DATE,"%m/%d/%y"),as.Date(d22$RECEIVED_DATE,"%m/%d/%y"), units = "days")
+```
+
+# Fixing the TimeTaken column in the dataset AND ADDING A NEW COLUMN AS "TimeTaken1"
+## "TimeTaken1" will be now used for computing processing time 
+```{r}
+d17 <- d17[!is.na(d17$TimeTaken),]
+d18 <- d18[!is.na(d18$TimeTaken),]
+d19 <- d19[!is.na(d19$TimeTaken),]
+d20 <- d20[!is.na(d20$TimeTaken),]
+d21 <- d21[!is.na(d21$TimeTaken),]
+d22 <- d22[!is.na(d22$TimeTaken),]
+
+d17$TimeTaken1 <- as.numeric(d17$TimeTaken)
+d18$TimeTaken1 <- as.numeric(d18$TimeTaken)
+d19$TimeTaken1 <- as.numeric(d19$TimeTaken)
+d20$TimeTaken1 <- as.numeric(d20$TimeTaken)
+d21$TimeTaken1 <- as.numeric(d21$TimeTaken)
+d22$TimeTaken1 <- as.numeric(d22$TimeTaken)
+
+d17 <- filter(d17,TimeTaken1>0)
+d18 <- filter(d18,TimeTaken1>0)
+d19 <- filter(d19,TimeTaken1>0)
+d20 <- filter(d20,TimeTaken1>0)
+d21 <- filter(d21,TimeTaken1>0)
+d22 <- filter(d22,TimeTaken1>0)
+```
+# Filtering Certified and Denied data for all dataset 
+```{r}
+d17_certified <- filter(d17,CASE_STATUS=="CERTIFIED")
+d18_certified <- filter(d18,CASE_STATUS=="CERTIFIED")
+d19_certified <- filter(d19,CASE_STATUS=="CERTIFIED")
+d20_certified <- filter(d20,CASE_STATUS=="Certified")
+d21_certified <- filter(d21,CASE_STATUS=="Certified")
+d22_certified <- filter(d22,CASE_STATUS=="Certified")
+d17_denied <- filter(d17,CASE_STATUS=="DENIED")
+d18_denied <- filter(d18,CASE_STATUS=="DENIED")
+d19_denied <- filter(d19,CASE_STATUS=="DENIED")
+d20_denied <- filter(d20,CASE_STATUS=="Denied")
+d21_denied <- filter(d21,CASE_STATUS=="Denied")
+d22_denied <- filter(d22,CASE_STATUS=="Denied")
+```
+
+```{r}
+d17_certifiedW <- filter(d17,CASE_STATUS=="CERTIFIED-WITHDRAWN")
+d18_certifiedW <- filter(d18,CASE_STATUS=="CERTIFIED-WITHDRAWN")
+d19_certifiedW <- filter(d19,CASE_STATUS=="CERTIFIED-WITHDRAWN")
+d20_certifiedW <- filter(d20,CASE_STATUS=="Certified - Withdrawn")
+d21_certifiedW <- filter(d21,CASE_STATUS=="Certified - Withdrawn")
+d22_certifiedW <- filter(d22,CASE_STATUS=="Certified - Withdrawn")
+d17_W <- filter(d17,CASE_STATUS=="WITHDRAWN")
+d18_W <- filter(d18,CASE_STATUS=="WITHDRAWN")
+d19_W <- filter(d19,CASE_STATUS=="WITHDRAWN")
+d20_W <- filter(d20,CASE_STATUS=="Withdrawn")
+d21_W <- filter(d21,CASE_STATUS=="Withdrawn")
+d22_W <- filter(d22,CASE_STATUS=="Withdrawn")
+```
+
+# Binding required data
+```{r}
+AllData <- rbind(d17,d18,d19,d20,d21,d22)
+AllData_Cert <- rbind(d17_certified,d18_certified,d19_certified,d20_certified,d21_certified,d22_certified)
+AllData_Den <- rbind(d17_denied,d18_denied,d19_denied,d20_denied,d21_denied,d22_denied)
+AllData_certifiedW <- rbind(d17_certifiedW,d18_certifiedW,d19_certifiedW,d20_certifiedW,d21_certifiedW,d22_certifiedW)
+AllData_W <- rbind(d17_W,d18_W,d19_W,d20_W,d21_W,d22_W)
+
+Precovid <- rbind(d17,d18,d19)
+Precovid_Cert <- rbind(d17_certified,d18_certified,d19_certified)
+Precovid_Den <- rbind(d17_denied,d18_denied,d19_denied)
+Precovid_certifiedW <- rbind(d17_certifiedW,d18_certifiedW,d19_certifiedW)
+Precovid_W <- rbind(d17_W,d18_W,d19_W)
+
+Postcovid <- rbind(d20,d21,d22)
+Postcovid_Cert <- rbind(d20_certified,d21_certified,d22_certified)
+Postcovid_Den <- rbind(d20_denied,d21_denied,d22_denied)
+Postcovid_certifiedW <- rbind(d20_certifiedW,d21_certifiedW,d22_certifiedW)
+Postcovid_W <- rbind(d20_W,d21_W,d22_W)
+```
+
+
+```{r}
+# Assuming the column for industry is called "Industry" and the column for wage is called "Wage"
+mean_wage_by_industry <- Precovid_Cert %>% 
+  group_by(Industry) %>% 
+  summarize(mean_wage = mean(WAGE)) %>% 
+  arrange(desc(mean_wage))
+
+# Reorder the factor levels of Industry based on mean wage
+mean_wage_by_industry$Industry <- fct_reorder(mean_wage_by_industry$Industry, mean_wage_by_industry$mean_wage)
+
+# Create the bar plot
+ggplot(mean_wage_by_industry, aes(x = Industry, y = mean_wage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Mean wage by industry", x = "Industry", y = "Mean wage") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # slant the x-axis labels
+
+```
+```{r}
+# Extract the wage data for Management Occupations
+management_wages <- AllData$TimeTaken1[AllData$Industry == "Food Preparation and Serving Related Occupations"]
+```
+
+# Normality test for less than 5000 sample data
+```{r}
+# Perform Shapiro-Wilk test for normality
+shapiro.test(management_wages)
+```
+# Normality test for all type of sample data
+```{r}
+# Perform Anderson-Darling test for normality
+ad.test(management_wages)
+```
+
+```{r}
+# Perform Anderson-Darling test for each numerical column
+for (col in colnames(Postcovid_W)) {
+  if (is.numeric(Postcovid_W[[col]])) {
+    ad_test <- ad.test(Postcovid_W[[col]])
+    if (ad_test$p.value > 0.05) {
+      cat(paste(col, "is normally distributed (AD statistic =", round(ad_test$statistic, 4), ", p =", round(ad_test$p.value, 4), ")\n"))
+    } else {
+      cat(paste(col, "is not normally distributed (AD statistic =", round(ad_test$statistic, 4), ", p =", round(ad_test$p.value, 4), ")\n"))
+    }
+  }
+}
+```
+
+```{r}
+Precovid_Cert_PSO <- filter(Precovid_Cert,Industry=="Protective Service Occupations")
+Precovid_Cert_BGO <- filter(Precovid_Cert,Industry=="Building and Grounds Cleaning and Maintenance Occupations")
+```
+
+
+##### CREATING SAMPLE DATASET #####
+
+```{r}
+# # Calculate summary statistics for the Total worker position column
+# summary(Precovid_Cert$TOTAL_WORKER_POSITIONS)
+# 
+# # Plot a histogram for the Total worker position column
+# hist(Precovid_Cert$TOTAL_WORKER_POSITIONS)
+# 
+# # Plot a density function for the Total worker position column
+# density(Precovid_Cert$TOTAL_WORKER_POSITIONS)
+```
+
+```{r}
+# # Generate 10 random samples of size 100 from the "Total worker position" column
+# sample_data <- replicate(10, sample(Precovid_Cert$TOTAL_WORKER_POSITIONS, 100))
+# # Find the number of observations with a total worker position equal to or greater than 5 in each sample
+# count <- apply(sample_data, 2, function(x) sum(x >= 5))
+# # Calculate the probability for each sample
+# prob <- count / 100
+# # Print the probabilities
+# print(prob)
+```
+# Mean and SD Pre covid certified
+```{r}
+# Assuming that "df" is your data frame and "TimeTaken1" is the column name
+mean_time_taken <- mean(Precovid_Den$TimeTaken1, na.rm = TRUE)
+sd_time_taken <- sd(Precovid_Den$TimeTaken1, na.rm = TRUE)
+
+# Print the results
+cat("Mean of TimeTaken1 column:", mean_time_taken, "\n")
+cat("Standard deviation of TimeTaken1 column:", sd_time_taken, "\n")
+```
+# Mean and SD Post covid certified
+```{r}
+# Assuming that "df" is your data frame and "TimeTaken1" is the column name
+mean_time_taken <- mean(Postcovid_Den$TimeTaken1, na.rm = TRUE)
+sd_time_taken <- sd(Postcovid_Den$TimeTaken1, na.rm = TRUE)
+
+# Print the results
+cat("Mean of TimeTaken1 column:", mean_time_taken, "\n")
+cat("Standard deviation of TimeTaken1 column:", sd_time_taken, "\n")
+```
+```{r}
+table(Precovid_Cert$TimeTaken1, useNA = 'always')
+```
+
+## Creating Sample S1 i.e. Pre Covid
+```{r}
+# # Set the seed for reproducibility
+# set.seed(123)
+# 
+# # Randomly select 5000 rows
+# sampled_dataset <- Precovid[sample(nrow(Precovid), 5000),]
+# 
+# # View the first few rows of the sampled dataset
+# head(sampled_dataset)
+# 
+# # Export the dataset as a CSV file
+# write.csv(sampled_dataset, "sampled_dataset_S1.csv", row.names = TRUE)
+```
+## Creating Sample S2 i.e. Post Covid
+```{r}
+# # Set the seed for reproducibility
+# set.seed(123)
+# 
+# # Randomly select 5000 rows
+# sampled_dataset <- Postcovid[sample(nrow(Postcovid), 5000),]
+# 
+# # View the first few rows of the sampled dataset
+# head(sampled_dataset)
+# 
+# # Export the dataset as a CSV file
+# write.csv(sampled_dataset, "sampled_dataset_S2.csv", row.names = TRUE)
+```
+
+# Reading sample data S1 from the file which is Pre covid data
+```{r}
+sample_data_S1 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/sampled_dataset_S1.csv")
+```
+
+# Reading sample data S2 from the file which is Post covid data
+```{r}
+sample_data_S2 <- read.csv(file = "/Users/ritesh/Library/CloudStorage/OneDrive-SharedLibraries-NortheasternUniversity/Pirasath Rajh Anantharaman Rajagopalan - Project work - drive/Dataset/CSV/sampled_dataset_S2.csv")
+```
+
+# Analysing the sample_data_S1 and sample_data_S2
+```{r}
+# Count the number of different case status pre and post covid
+Precovid_count <- count(sample_data_S1, CASE_STATUS)
+Postcovid_count <- count(sample_data_S2, CASE_STATUS)
+
+# Calculate the proportion of certified and applications pre and post covid
+Precovid_certified_prop <- Precovid_count[1, 2] / sum(Precovid_count$n)
+Postcovid_certified_prop <- Postcovid_count[1, 2] / sum(Postcovid_count$n)
+```
+
+```{r}
+Precovid_certified_prop
+Postcovid_certified_prop
+```
+
+# Confidence interval for the mean wage in the pre-covid dataset, stratified by case status (certified & denied):
+```{r}
+pre_covid_certified_mean <- mean(Precovid_Cert$WAGE, na.rm = TRUE)
+pre_covid_certified_sd <- sd(Precovid_Cert$WAGE, na.rm = TRUE)
+
+pre_covid_certified_ci <- confint(lm(WAGE ~ 1, data = Precovid_Cert))
+pre_covid_certified_lower_ci <- pre_covid_certified_ci[1]
+pre_covid_certified_upper_ci <- pre_covid_certified_ci[2]
+
+pre_covid_denied_mean <- mean(Precovid_Den$WAGE)
+pre_covid_denied_ci <- confint(lm(WAGE ~ 1, data = Precovid_Den))
+pre_covid_denied_lower_ci <- pre_covid_denied_ci[1]
+pre_covid_denied_upper_ci <- pre_covid_denied_ci[2]
+```
+
+# Confidence interval for the mean wage in the post-covid dataset, stratified by case status (certified & denied):
+```{r}
+post_covid_certified_mean <- mean(Postcovid_Cert$WAGE, na.rm = TRUE)
+post_covid_certified_sd <- sd(Postcovid_Cert$WAGE, na.rm = TRUE)
+
+post_covid_certified_ci <- confint(lm(WAGE ~ 1, data = Postcovid_Cert))
+post_covid_certified_lower_ci <- post_covid_certified_ci[1]
+post_covid_certified_upper_ci <- post_covid_certified_ci[2]
+
+post_covid_denied_mean <- mean(Postcovid_Den$WAGE)
+post_covid_denied_ci <- confint(lm(WAGE ~ 1, data = Postcovid_Den))
+post_covid_denied_lower_ci <- post_covid_denied_ci[1]
+post_covid_denied_upper_ci <- post_covid_denied_ci[2]
+```
+
+## CASE_STATUS values Pre Covid
+```{r}
+#table(Precovid$CASE_STATUS, useNA = 'always')
+table(Precovid$CASE_STATUS)
+```
+## CASE_STATUS values Post Covid
+```{r}
+table(Postcovid$CASE_STATUS)
+```
+
+##### DIGITAL VISUALIZATION #####
+
+# Classification of Post and Precovid data based on case status
+```{r}
+specie <- c(rep("Pre covid" , 4) , rep("Post covid" , 4))
+Labels <- rep(c("CERTIFIED" , "CERTIFIED-WITHDRAWN" , "DENIED" , "WITHDRAWN") , 2)
+value <- c(1659014,113142,19550,56696,1840168,81409,9694,36686)
+data <- data.frame(specie,Labels,value)
+# ggplot(data, aes(fill=Labels, y=value, x=specie)) + 
+#     geom_bar(position="stack", stat="identity") +
+#     scale_fill_viridis(discrete = T) +
+#     ggtitle("Classification of Post and Precovid data based on case status") +
+#     theme_ipsum() +
+#     xlab("") + ylab("Cases count")
+# Define custom colors
+my_colors <- c("#FF6B6B", "#FFC06B", "#8AFF6B", "#6BC4FF")
+
+# Create the plot
+ggplot(data, aes(fill=Labels, y=value, x=specie)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_manual(values=my_colors) + # Specify custom color palette
+    ggtitle("Classification of Post and Precovid data based on case status") +
+    theme_ipsum() +
+    xlab("") + ylab("Cases count")
+```
+# To convert exponential value into numerical
+```{r}
+options(scipen = 999)
+```
+
+# Certified case count vs processing time for pre covid data
+```{r}
+# ggplot(Precovid_Cert, aes(x = TimeTaken1)) +
+# geom_histogram(binwidth = 0.5, fill = "steelblue", color = "white") +
+# labs(x = "Processing Time", y = "Cases count", title = "Histogram of Processing Time for Pre-covid certified data")
+
+ggplot(Precovid_Cert, aes(x = TimeTaken1)) +
+  geom_histogram(binwidth = 0.5, fill = "steelblue", color = "white") +
+  labs(x = "Processing Time", y = "Certified case count", title = "Histogram of Processing Time for Pre-covid certified data") +
+  scale_x_continuous(breaks = seq(0, max(Precovid_Cert$TimeTaken1), 2))
+
+```
+# Certified case count vs processing time for post covid data
+```{r}
+ggplot(Postcovid_Cert, aes(x = log(TimeTaken1))) +
+geom_histogram(binwidth = 0.5, fill = "steelblue", color = "white") +
+labs(x = "Natural log of Processing Time", y = "Cases count", title = "Histogram of Natural log of Processing Time for Post covid certified data")
+```
+
+```{r}
+table(Postcovid_Cert$TimeTaken1, useNA = 'always')
+```
