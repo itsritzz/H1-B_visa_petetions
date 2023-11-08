@@ -1,5 +1,5 @@
 # H1B Visa Petitions: A Comparative Analysis of Pre and Post Pandemic
-![convertkit-htQznS-Rx7w-unsplash](https://github.com/itsritzz/H1-B_visa_petetions/assets/142550317/0d437b5c-5650-4a82-8e37-3a9a39aa6c66)
+![convertkit-htQznS-Rx7w-unsplash](https://github.com/itsritzz/H1-B_visa_petetions/blob/main/images/Health-insurance.jpg)
 
 ### Introduction
 The H1B visa is a type of temporary work visa that allows highly skilled foreign workers to work in the United States. It is typically sponsored by a U.S. employer who is willing to offer the foreign worker a job and pay them a prevailing wage for their occupation. It is valid for up to three years and can be extended for an additional three years. To apply for an H1B visa, post an initial Labor Condition Application process approval, the employer can file an H1B visa petition with U.S. Citizenship and Immigration Services (USCIS). If the petition is approved, the foreign worker can then apply for an H1B visa at a U.S. embassy or consulate in their home country.
