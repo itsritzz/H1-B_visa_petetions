@@ -10,7 +10,7 @@ The H1B visa is a type of temporary work visa that allows highly skilled foreign
 ## Data Sources
 The data used in the project is Foreign Labor Certification (FLC) data - The FLC program provides data on the employment of foreign workers in the US, including H-1B visa holders. We used H1B data for the years 2017 to 2022. The data includes various attributes such as case status, received date, decision date, visa class, job title, employer details, wage information, and more.You can access this data on the Department of Labor (DOL) website [here](https://www.foreignlaborcert.doleta.gov/performancedata.cfm)
 
-### Problem Statement
+## Problem Statement
 The impact of Covid-19 on the job market and global economy has led to a dearth of knowledge among H1B visa aspirants such as graduate students, mid-career professionals regarding factors such as approval rate, wage, etc which could be high for certain job titles, wage levels, industries, etc. As a result, many individuals are unsure on how to take their career forward. Therefore, the aim of this project is to provide accurate information on which factors have been majorly affected due to Covid-19 by utilizing data visualization, descriptive and inferential statistical methods. From the inferences, comparative trends in critical impact factors will be declared. This shall bridge the knowledge gap and provide clarity to our target audience by bridging their knowledge gap and answering the big question i.e., whether Covid-19 had an impact on the H-1B petition process.
 
 ## Required Packages
