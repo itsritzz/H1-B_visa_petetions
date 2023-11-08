@@ -1,4 +1,6 @@
 # H1B Visa Petitions: A Comparative Analysis of Pre and Post Pandemic
+[![RStudio](https://img.shields.io/badge/RStudio-75AADB?style=for-the-badge&logo=rstudio&logoColor=white)](https://www.rstudio.com)
+
 ![H1B image](https://github.com/itsritzz/H1-B_visa_petetions/blob/main/images/H1-B%20image.jpeg)
 
 ### Introduction
