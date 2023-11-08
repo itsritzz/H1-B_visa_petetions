@@ -66,4 +66,4 @@ Performs statistical tests to compare the pre-COVID-19 and post-COVID-19 time ta
 
 This project provides insights into H1B visa application trends, industry-wise distribution, case status, and wage analysis. The visualizations and data transformations help in understanding various aspects of the H1B visa process.
 
-For a detailed analysis, you can refer to the [R files]() in this repository.
+For a detailed analysis, you can refer to the [R files](https://github.com/itsritzz/H1-B_visa_petetions/tree/07b3e313b64cd13ad3b9aba696a116c4bd416460/R%20files) in this repository.
