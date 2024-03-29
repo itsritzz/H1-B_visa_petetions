@@ -1,4 +1,4 @@
-# H1B Visa Petitions: A Comparative Analysis of Pre and Post Pandemic
+# US Labor Market: A Comparative Analysis of Pre and Post Pandemic
 [![RStudio](https://img.shields.io/badge/RStudio-75AADB?style=for-the-badge&logo=rstudio&logoColor=white)](https://www.rstudio.com)
 [![Microsoft Excel](https://img.shields.io/badge/Microsoft%20Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)](https://www.microsoft.com/en-us/microsoft-365/get-started-with-office-2019)
 
